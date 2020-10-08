@@ -20,20 +20,21 @@ export default class BeerList extends React.Component {
 
     render() {
         if (this.props.beers !== undefined && this.props.beers.length > 0) {
+            console.log(this.props.beers);
             return (<FlatList
                 style={{width:"100%", marginTop: 20}}
                 data={this.props.beers}
                 renderItem={({ item }) =>
-                    <TouchableOpacity onPress={() => this._onPress(item.id)} style={[{flexDirection: "row"}, styles.container, styles.card]}>
-                        <Image resizeMode={'contain'} style={{width: 100, height: 100 }} source={{ uri: item.image_url }} />
+                    <TouchableOpacity onPress={() => this._onPress(item._id)} style={[{flexDirection: "row"}, styles.container, styles.card]}>
+                        <Image resizeMode={'contain'} style={{width: 100, height: 100 }} source={{ uri: item.imgUrl }} />
                         <View style={{ flex:1, height: 100, justifyContent: "space-around", flexDirection: "column"}}>
-                            <Text style={styles.date}>{item.first_brewed} - <Text style={{color: Colors.tintColor}}>{item.abv}°</Text></Text>
+                            <Text style={styles.date}>{item.color} - <Text style={{color: Colors.tintColor}}>{item.abv}°</Text></Text>
                             <Text style={styles.title}>{item.name}</Text>
-                            <Text style={styles.subline}>{item.tagline}</Text>
+                            <Text style={styles.subline}>{item.flavour}</Text>
                         </View>
                     </TouchableOpacity>
                 }
-                keyExtractor={({ id }, index) => id.toString()}
+                keyExtractor={({ _id }, index) => _id.toString()}
             />)
         } else {
             return (<Text/>)

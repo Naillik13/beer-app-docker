@@ -1,37 +1,30 @@
 import React from "react"
-import {StyleSheet, ActivityIndicator, Image, Text, Button, View} from "react-native";
+import {StyleSheet, ActivityIndicator, Text, View} from "react-native";
 import Colors from "../constants/Colors"
-import BeerDetails from "../components/BeerDetails";
-import {StackActions} from "react-navigation";
+import BeerList from "../components/BeerList";
 export default class HomeScreen extends React.Component {
     constructor(props){
         super(props);
         this.state ={ isLoading: false}
     }
 
-    getRandomBeer = () => {
+    componentDidMount(){
         this.setState({
-            isLoading: true,
+            isLoading: true
         });
-        fetch('https://api.punkapi.com/v2/beers/random')
+        return fetch('http://192.168.1.15:3000/api/beers')
             .then((response) => response.json())
             .then((responseJson) => {
-
+                console.log(responseJson);
                 this.setState({
                     isLoading: false,
-                    beer: responseJson[0],
-                });
-                const pushAction = StackActions.push({
-                    routeName: 'Details',
-                    params: {
-                        id: responseJson[0].id,
-                    },
-                });
-                this.props.navigation.navigate(pushAction);
+                    beers: responseJson,
+                }, function(){
 
+                });
             })
             .catch((error) =>{
-                alert("An error has occurred while fetching random beer");
+                alert("An error has occurred while fetching beer list");
                 console.error(error);
             });
     };
@@ -47,13 +40,12 @@ export default class HomeScreen extends React.Component {
         }
 
         return(
-            <View style={{flex: 1, paddingTop:20, alignItems: "center", justifyContent: "center"}}>
-                <Text style={[styles.title, {marginBottom: 10}]}>Welcome to your new <Text style={{color: Colors.tintColor}}>beer</Text> library.</Text>
-                <Text style={{textAlign: "center", color: Colors.textColor}}>Here you can find beers of any kind, filtering by degree for example or looking for a name.</Text>
-                <Text style={{color: Colors.textColor}}>But for now, why not start by finding a random beer?</Text>
-                <Text style={{color: Colors.textColor}}>And may be discovering a new one!</Text>
-                <View style={[styles.separator, styles.container]} />
-                <Button color={Colors.tintColor} title="Find Random Beer" onPress={() => this.getRandomBeer()}/>
+            <View style={{flex: 1, paddingTop:20, alignItems: "center"}}>
+                <View style={{flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+                    <Text style={styles.title}>Our Beers</Text>
+                    <Text style={{color: Colors.textColor, marginTop: 10}}>Here is all our beers!</Text>
+                </View>
+                <BeerList beers={this.state.beers} navigation={this.props.navigation}/>
             </View>
         );
     }

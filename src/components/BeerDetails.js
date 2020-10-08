@@ -14,23 +14,18 @@ export default class BeerDetails extends React.Component {
          return (
              <View>
                  <View style={[{flexDirection: "row", alignItems: "center"}, styles.container, styles.card]}>
-                     <Image resizeMode={'contain'} style={{ alignSelf: "center", width: 100, height: 100 }} source={{ uri: this.state.beer.image_url }} />
+                     <Image resizeMode={'contain'} style={{ alignSelf: "center", width: 100, height: 100 }} source={{ uri: this.state.beer.imgUrl }} />
                      <View style={{flex:1, height: 100, justifyContent: "space-around", flexDirection: "column"}}>
-                         <Text style={styles.date}>{this.state.beer.first_brewed} - <Text style={{color: Colors.tintColor}}>{this.state.beer.abv}°</Text></Text>
+                         <Text style={styles.date}>{this.state.beer.color} - <Text style={{color: Colors.tintColor}}>{this.state.beer.abv}°</Text></Text>
                          <Text style={styles.title}>{this.state.beer.name}</Text>
-                         <Text style={styles.subline}>{this.state.beer.tagline}</Text>
+                         <Text style={styles.subline}>{this.state.beer.flavour}</Text>
                      </View>
                  </View>
                  <View style={styles.container}>
                      <Text style={[styles.title, {marginBottom: 10}]}>Some informations about the <Text style={{color: Colors.tintColor}}>{this.state.beer.name}</Text></Text>
                      <Text style={{color: Colors.textColor}}>{this.state.beer.description}</Text>
-                     <Text style={styles.subtitle}>Brewers tips</Text>
-                     <Text style={{color: Colors.textColor}}>{this.state.beer.brewers_tips}</Text>
-                     <Text style={styles.subtitle}>Want to eat ?</Text>
-                     <Text style={{color: Colors.titleColor, marginBottom:3}}>You can try our next <Text style={{color: Colors.tintColor}}>suggestions</Text></Text>
-                     {this.state.beer.food_pairing.map(food => (
-                         <Text key={food} style={{color: Colors.textColor}}>- {food}</Text>
-                     ))}
+                     <Text style={styles.subtitle}>You want to know it's origins ?</Text>
+                     <Text style={{color: Colors.textColor}}>It's from {this.state.beer.country}</Text>
                  </View>
              </View>
          )
